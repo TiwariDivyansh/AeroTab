@@ -1170,4 +1170,287 @@
   box-shadow: 0 0 12px rgba(239, 68, 68, 0.8), inset 0 1px 2px #fff;
 }
 
+/* ==========================================================================
+   SKEUOMORPHIC TRANSLUCENT STICKY NOTE GADGET
+   Authentic glass post-it note scratchpad with folded corner & tape pin
+   ========================================================================== */
+.sticky-notes-gadget {
+  position: relative;
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.72) 0%, rgba(253, 230, 138, 0.55) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(252, 211, 77, 0.85);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 28px rgba(180, 83, 9, 0.22), inset 0 2px 2px #fff;
+  transition: all var(--transition-normal);
+  overflow: hidden;
+}
+
+/* Translucent Tape Pin at Top */
+.sticky-notes-gadget::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 16px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.35) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  z-index: 4;
+}
+
+.sticky-note-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.sticky-color-picker {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sticky-color-pill {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 150ms ease;
+}
+
+.sticky-color-pill:hover,
+.sticky-color-pill.active {
+  transform: scale(1.25);
+  box-shadow: 0 0 6px currentColor;
+}
+
+.sticky-color-pill[data-note-color="amber"] { background: #fbbf24; }
+.sticky-color-pill[data-note-color="aqua"] { background: #38bdf8; }
+.sticky-color-pill[data-note-color="mint"] { background: #4ade80; }
+.sticky-color-pill[data-note-color="rose"] { background: #fb7185; }
+
+.sticky-note-textarea {
+  width: 100%;
+  height: 130px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 600;
+  color: #451a03;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.sticky-note-textarea::placeholder {
+  color: rgba(69, 26, 3, 0.5);
+  font-style: italic;
+}
+
+.sticky-note-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 12px 8px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.sticky-clear-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 800;
+  color: #991b1b;
+  opacity: 0.65;
+  transition: opacity 150ms ease;
+}
+
+.sticky-clear-btn:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   PERSONAL MICRO-DIARY & REFLECTIONS GADGET
+   ========================================================================== */
+.diary-widget {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(220, 245, 255, 0.3) 100%
+  );
+}
+
+.diary-input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.diary-entry-input {
+  width: 100%;
+  height: 64px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 600;
+  color: #002244;
+  resize: none;
+  box-sizing: border-box;
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(0, 20, 50, 0.15);
+}
+
+.diary-entry-input:focus {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #00b4d8;
+  box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.35);
+}
+
+.diary-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.diary-entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 140px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.diary-entry-card {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.diary-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 800;
+  color: #034870;
+  text-transform: uppercase;
+}
+
+.diary-entry-delete {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.diary-entry-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #002244;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.diary-empty {
+  font-size: 11px;
+  font-style: italic;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* ==========================================================================
+   HIGH-CONTRAST GLASS BACKPLATES & FONT TONE OVERRIDES
+   Guarantees 100% legibility on Frutiger Metro, white skies & custom wallpapers
+   ========================================================================== */
+[data-high-contrast="true"] .greeting-section,
+[data-high-contrast="true"] .clock-section {
+  background: rgba(0, 15, 35, 0.45);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: var(--radius-xl);
+  padding: 12px 28px;
+  box-shadow: 0 14px 40px rgba(0, 10, 25, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.6);
+}
+
+[data-high-contrast="true"] .focus-display {
+  background: rgba(0, 20, 50, 0.65) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Pure Snow White Text Tone Override */
+[data-font-tone="white"] .digital-clock,
+[data-font-tone="white"] .date-display,
+[data-font-tone="white"] .greeting-text,
+[data-font-tone="white"] .search-hotkey-hint {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 15, 35, 0.98), 0 4px 18px rgba(0, 0, 0, 0.95), 0 0 24px rgba(0, 180, 216, 0.8) !important;
+}
+
+/* Deep Obsidian / Navy High-Contrast Font Tone Override (For Light Meadows / Metro) */
+[data-font-tone="dark"] .digital-clock,
+[data-font-tone="dark"] .date-display,
+[data-font-tone="dark"] .greeting-text {
+  color: #001428 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9), 0 0 16px rgba(255, 255, 255, 0.8) !important;
+}
+
+[data-font-tone="dark"] .digital-clock {
+  font-weight: 500 !important;
+}
+
+[data-font-tone="dark"] .focus-input {
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: #001428 !important;
+  border-color: rgba(0, 180, 216, 0.8) !important;
+}
+
+/* ==========================================================================
+   SCENIC IMMERSION MODE (Hide Sidebars for Pure Panoramic 4K Vista)
+   ========================================================================== */
+.scenic-mode .sidebar {
+  display: none !important;
+}
+
+.scenic-mode .app-container {
+  grid-template-columns: 1fr !important;
+}
+
+.scenic-mode .main-content {
+  grid-column: 1 !important;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+
 

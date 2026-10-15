@@ -102,11 +102,53 @@ const Settings = {
               <div class="theme-card-header">
                 <span class="theme-subgenre-badge">${th.subgenreName || 'Aero'}</span>
               </div>
-              <div class="theme-preview-swatch" style="background: ${th.swatchGradient};"></div>
+              <div class="theme-card-preview-frame">
+                <img src="${th.wallpaper}" class="theme-preview-img" alt="${th.name}" loading="lazy">
+                <div class="theme-preview-glare"></div>
+              </div>
               <div class="theme-name">${th.name}</div>
               <div class="theme-desc">${th.description}</div>
             </div>
           `).join('')}
+        </div>
+      </section>
+
+      <!-- Readability & Font Contrast (Frutiger Metro Fix) -->
+      <section class="settings-section">
+        <h3 class="settings-section-title">Readability & Font Contrast</h3>
+        <div class="settings-row" style="flex-direction: column; align-items: stretch; gap: 8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="settings-label">Font Tone</span>
+            <span style="font-size:11px; color:rgba(255,255,255,0.7);">For light or dark skies</span>
+          </div>
+          <div class="segmented-pills" id="font-tone-pills">
+            <button type="button" class="segmented-pill-btn ${(!s.fontTone || s.fontTone === 'auto') ? 'active' : ''}" data-font-tone="auto">✨ Auto</button>
+            <button type="button" class="segmented-pill-btn ${s.fontTone === 'white' ? 'active' : ''}" data-font-tone="white">❄️ Snow White</button>
+            <button type="button" class="segmented-pill-btn ${s.fontTone === 'dark' ? 'active' : ''}" data-font-tone="dark">🌑 Obsidian Dark</button>
+          </div>
+        </div>
+        <div class="settings-row" style="margin-top: 10px;">
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <span class="settings-label">High-Contrast Glass Backplates</span>
+            <span style="font-size:10px; color:rgba(255,255,255,0.7);">Frosted focus capsules behind clock & greeting</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="setting-high-contrast" ${s.highContrastBackplates ? 'checked' : ''}>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Right Sidebar Gadget Selection -->
+      <section class="settings-section">
+        <h3 class="settings-section-title">Right Sidebar Gadget</h3>
+        <div style="font-size:11px; color:rgba(255,255,255,0.8); margin-bottom:8px;">
+          Choose your primary right-side workspace gadget:
+        </div>
+        <div class="segmented-pills" id="active-gadget-pills">
+          <button type="button" class="segmented-pill-btn ${(s.activeRightGadget === 'notes' || !s.activeRightGadget) ? 'active' : ''}" data-gadget="notes">📌 Sticky Note</button>
+          <button type="button" class="segmented-pill-btn ${s.activeRightGadget === 'diary' ? 'active' : ''}" data-gadget="diary">📖 Personal Diary</button>
+          <button type="button" class="segmented-pill-btn ${s.activeRightGadget === 'tasks' ? 'active' : ''}" data-gadget="tasks">☑️ Focus Tasks</button>
         </div>
       </section>
 
@@ -156,7 +198,7 @@ const Settings = {
         </div>
         <div class="settings-row">
           <label class="settings-label" for="setting-weather-city">Target City</label>
-          <input type="text" id="setting-weather-city" class="glass-input" value="${s.weatherCity || ''}" placeholder="Leave blank for GPS" style="width: 160px;">
+          <input type="text" id="setting-weather-city" class="glass-input" value="${s.weatherCity || ''}" placeholder="e.g. Seattle, Tokyo" style="width: 160px;">
         </div>
         <div class="settings-row">
           <label class="settings-label" for="setting-weather-unit">Temperature Unit</label>
@@ -169,7 +211,17 @@ const Settings = {
 
       <!-- Gadget Arrangement -->
       <section class="settings-section">
-        <h3 class="settings-section-title">Gadget Arrangement</h3>
+        <h3 class="settings-section-title">Gadget Arrangement & Immersion</h3>
+        <div class="settings-row">
+          <div style="display:flex; flex-direction:column; gap:2px;">
+            <span class="settings-label">Scenic Panoramic Mode</span>
+            <span style="font-size:10px; color:rgba(255,255,255,0.7);">Hide all sidebars for pure 4K vista</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="setting-scenic-mode" ${s.scenicMode ? 'checked' : ''}>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
         <div class="settings-row">
           <span class="settings-label">Greeting & Focus Bar</span>
           <label class="toggle-switch">
@@ -188,13 +240,6 @@ const Settings = {
           <span class="settings-label">Aero Sound Player</span>
           <label class="toggle-switch">
             <input type="checkbox" id="setting-show-player" checked>
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-        <div class="settings-row">
-          <span class="settings-label">Focus Tasks Gadget</span>
-          <label class="toggle-switch">
-            <input type="checkbox" id="setting-show-tasks" ${s.showTasks ? 'checked' : ''}>
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -305,6 +350,60 @@ const Settings = {
           if (window.Themes && window.Themes.definitions[window.Themes.currentTheme]) {
             window.BackgroundEngine.setTheme(window.Themes.definitions[window.Themes.currentTheme]);
           }
+        }
+      });
+    }
+
+    // Font Tone Pills (Readability & Contrast)
+    document.querySelectorAll('#font-tone-pills .segmented-pill-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const tone = btn.getAttribute('data-font-tone');
+        document.documentElement.setAttribute('data-font-tone', tone);
+        await AeroStorage.set('fontTone', tone);
+        document.querySelectorAll('#font-tone-pills .segmented-pill-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (window.SoundEngine && typeof SoundEngine.playGlassClick === 'function') {
+          SoundEngine.playGlassClick();
+        }
+      });
+    });
+
+    // High Contrast Glass Backplates Toggle
+    const hcToggle = document.getElementById('setting-high-contrast');
+    if (hcToggle) {
+      hcToggle.addEventListener('change', async (e) => {
+        const val = e.target.checked;
+        document.documentElement.setAttribute('data-high-contrast', val ? 'true' : 'false');
+        await AeroStorage.set('highContrastBackplates', val);
+        if (window.SoundEngine && typeof SoundEngine.playGlassClick === 'function') {
+          SoundEngine.playGlassClick();
+        }
+      });
+    }
+
+    // Right Sidebar Gadget Selector
+    document.querySelectorAll('#active-gadget-pills .segmented-pill-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const gadget = btn.getAttribute('data-gadget');
+        await AeroStorage.set('activeRightGadget', gadget);
+        this.applyActiveRightGadget(gadget);
+        document.querySelectorAll('#active-gadget-pills .segmented-pill-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (window.SoundEngine && typeof SoundEngine.playGlassClick === 'function') {
+          SoundEngine.playGlassClick();
+        }
+      });
+    });
+
+    // Scenic Mode Toggle
+    const scenicToggle = document.getElementById('setting-scenic-mode');
+    if (scenicToggle) {
+      scenicToggle.addEventListener('change', async (e) => {
+        const isScenic = e.target.checked;
+        document.body.classList.toggle('scenic-mode', isScenic);
+        await AeroStorage.set('scenicMode', isScenic);
+        if (window.SoundEngine && typeof SoundEngine.playGlassClick === 'function') {
+          SoundEngine.playGlassClick();
         }
       });
     }
@@ -459,6 +558,16 @@ const Settings = {
         }
       });
     }
+  },
+
+  applyActiveRightGadget: function(gadget) {
+    const stickyEl = document.getElementById('sticky-notes-gadget');
+    const diaryEl = document.getElementById('diary-widget');
+    const tasksEl = document.getElementById('tasks-widget');
+
+    if (stickyEl) stickyEl.style.display = gadget === 'notes' ? '' : 'none';
+    if (diaryEl) diaryEl.style.display = gadget === 'diary' ? '' : 'none';
+    if (tasksEl) tasksEl.style.display = gadget === 'tasks' ? '' : 'none';
   }
 };
 

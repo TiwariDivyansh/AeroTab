@@ -161,8 +161,44 @@
 
     <!-- Right Sidebar: Tasks & Quick Launch Links -->
     <aside class="sidebar sidebar-right">
-      <!-- Tasks / Sticky Notes Gadget -->
-      <section id="tasks-widget" class="widget glass-panel animate-fade-in-up stagger-2">
+      <!-- Skeuomorphic Glass Sticky Note Scratchpad -->
+      <section id="sticky-notes-gadget" class="widget sticky-notes-gadget animate-fade-in-up stagger-2">
+        <div class="sticky-note-header">
+          <div class="sticky-color-picker">
+            <span class="sticky-color-pill active" data-note-color="amber" title="Amber Sun"></span>
+            <span class="sticky-color-pill" data-note-color="aqua" title="Aqua Glass"></span>
+            <span class="sticky-color-pill" data-note-color="mint" title="Mint Meadow"></span>
+            <span class="sticky-color-pill" data-note-color="rose" title="Rose Quartz"></span>
+          </div>
+          <button id="sticky-note-clear-btn" class="sticky-clear-btn" title="Clear note">Clear</button>
+        </div>
+        <textarea id="sticky-note-textarea" class="sticky-note-textarea" placeholder="Jot a thought, phone number, or quick link..."></textarea>
+        <div class="sticky-note-footer">
+          <span class="sticky-tag">📌 Sticky Note</span>
+          <span id="sticky-note-char-count">0 chars</span>
+        </div>
+      </section>
+
+      <!-- Personal Micro-Diary & Reflection Log -->
+      <section id="diary-widget" class="widget glass-panel diary-widget animate-fade-in-up stagger-2" style="display: none;">
+        <div class="widget-header">
+          <span class="widget-title">Personal Diary</span>
+          <button id="diary-export-btn" class="widget-action-btn" title="Export Diary (.md)">📥</button>
+        </div>
+        <div class="widget-body">
+          <div class="diary-input-box">
+            <textarea id="diary-entry-input" class="diary-entry-input" placeholder="Record a reflection... (Ctrl+Enter to save)"></textarea>
+            <div class="diary-actions-row">
+              <span style="font-size: 10px; color: rgba(255,255,255,0.85); text-shadow: 0 1px 1px rgba(0,0,0,0.5);">Press Ctrl+Enter</span>
+              <button id="diary-save-btn" class="glass-button" style="padding: 3px 10px; font-size: 11px;">Save Entry</button>
+            </div>
+          </div>
+          <div id="diary-entries-list" class="diary-entries-list"></div>
+        </div>
+      </section>
+
+      <!-- Tasks / Checklist Gadget -->
+      <section id="tasks-widget" class="widget glass-panel animate-fade-in-up stagger-2" style="display: none;">
         <div class="widget-header">
           <span class="widget-title">Focus Tasks</span>
           <button id="add-task-btn" class="widget-action-btn" title="Add task">+</button>
@@ -217,6 +253,7 @@
       </div>
 
       <div class="taskbar-right">
+        <button id="scenic-mode-btn" class="taskbar-btn" title="Toggle Scenic Vista Mode (Hide Sidebars)">🖼️</button>
         <button id="theme-btn" class="taskbar-btn" title="Switch Theme Preset">🎨</button>
         <button id="settings-btn" class="taskbar-btn" title="Settings & Customization">⚙️</button>
         <div id="taskbar-clock" class="taskbar-clock">12:00 PM</div>
@@ -334,6 +371,8 @@
   <script src="js/clock-widget.js"></script>
   <script src="js/weather-widget.js"></script>
   <script src="js/tasks-widget.js"></script>
+  <script src="js/notes-widget.js"></script>
+  <script src="js/diary-widget.js"></script>
   <script src="js/bookmarks-widget.js"></script>
   <script src="js/sound-engine.js"></script>
   <script src="js/search-widget.js"></script>

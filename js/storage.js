@@ -31,7 +31,13 @@ const AeroStorage = {
       { id: 'b4', label: 'r/Aero', url: 'https://reddit.com/r/FrutigerAero', icon: '🌊' }
     ],
     focusText: '',
-    lastFocusDate: ''
+    lastFocusDate: '',
+    fontTone: 'auto',
+    highContrastBackplates: false,
+    activeRightGadget: 'notes',
+    stickyNotesContent: 'Welcome to AeroTab ✨\nUse this translucent glass note for quick scratchpad thoughts, links, and fleeting ideas.\nAuto-saved locally in real time.',
+    diaryEntries: [],
+    scenicMode: false
   },
 
   isChromeStorageAvailable: function() {

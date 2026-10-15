@@ -63,32 +63,22 @@ const WeatherWidget = {
   },
 
   fetchFromOpenMeteo: async function(settings) {
-    let lat = 37.7749;
-    let lon = -122.4194;
-    let cityName = settings.weatherCity ? settings.weatherCity : 'Local';
+    let lat = 47.6062;
+    let lon = -122.3321;
+    let cityName = 'Pacific Vista';
 
-    if (settings.weatherCity) {
-      // Geocode city name via Open-Meteo Geocoding
+    if (settings.weatherCity && settings.weatherCity.trim()) {
+      // Geocode city name via Open-Meteo Geocoding (Zero permissions needed!)
       try {
-        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(settings.weatherCity)}&count=1`);
+        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(settings.weatherCity.trim())}&count=1`);
         const geoData = await geoRes.json();
         if (geoData.results && geoData.results.length > 0) {
           lat = geoData.results[0].latitude;
           lon = geoData.results[0].longitude;
           cityName = geoData.results[0].name;
         }
-      } catch (e) {}
-    } else if (navigator.geolocation) {
-      // Try browser geolocation with 4s timeout
-      try {
-        const pos = await new Promise((res, rej) => {
-          navigator.geolocation.getCurrentPosition(res, rej, { timeout: 4000 });
-        });
-        lat = pos.coords.latitude;
-        lon = pos.coords.longitude;
-        cityName = 'Current Location';
       } catch (e) {
-        // Fall back to default
+        cityName = settings.weatherCity.trim();
       }
     }
 

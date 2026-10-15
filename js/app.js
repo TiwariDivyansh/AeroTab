@@ -23,6 +23,13 @@
     // 3. Apply theme palette & variables
     Themes.apply(settings.theme || 'bliss');
 
+    // Apply Contrast & Font Tone Modes
+    document.documentElement.setAttribute('data-font-tone', settings.fontTone || 'auto');
+    document.documentElement.setAttribute('data-high-contrast', settings.highContrastBackplates ? 'true' : 'false');
+    if (settings.scenicMode) {
+      document.body.classList.add('scenic-mode');
+    }
+
     // 4. Initialize Core Widgets
     Greeting.init();
     ClockWidget.init();
@@ -41,12 +48,13 @@
       clockWidgetEl.style.display = settings.showClock ? '' : 'none';
     }
 
-    const tasksWidgetEl = document.getElementById('tasks-widget');
-    if (tasksWidgetEl) {
-      tasksWidgetEl.style.display = settings.showTasks ? '' : 'none';
-      if (settings.showTasks) {
-        TasksWidget.init();
-      }
+    // Right Sidebar Gadget Modules (Sticky Notes, Diary, Tasks)
+    if (window.NotesWidget) NotesWidget.init();
+    if (window.DiaryWidget) DiaryWidget.init();
+    if (window.TasksWidget) TasksWidget.init();
+
+    if (window.Settings && typeof Settings.applyActiveRightGadget === 'function') {
+      Settings.applyActiveRightGadget(settings.activeRightGadget || 'notes');
     }
 
     const bookmarksWidgetEl = document.getElementById('bookmarks-widget');
@@ -60,6 +68,18 @@
     const greetingSectionEl = document.getElementById('greeting-section');
     if (greetingSectionEl) {
       greetingSectionEl.style.display = settings.showGreeting ? '' : 'none';
+    }
+
+    // Scenic Mode Taskbar Button
+    const scenicBtn = document.getElementById('scenic-mode-btn');
+    if (scenicBtn) {
+      scenicBtn.addEventListener('click', async () => {
+        const isScenic = document.body.classList.toggle('scenic-mode');
+        await AeroStorage.set('scenicMode', isScenic);
+        if (window.SoundEngine && typeof SoundEngine.playGlassClick === 'function') {
+          SoundEngine.playGlassClick();
+        }
+      });
     }
 
     // 5. Initialize Ambient Sound Engine (UI only, waiting for user activation)
