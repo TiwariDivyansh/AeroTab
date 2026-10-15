@@ -67,3 +67,17 @@ ytd-video-renderer:hover {
   transform: translateY(-3px) scale(1.01) !important;
   box-shadow: 0 8px 24px rgba(0, 180, 216, 0.25) !important;
 }
+
+/* 4. YouTube Video Player Progress Bar Aqua Glow */
+.ytp-play-progress.ytp-swatch-background-color {
+  background: linear-gradient(90deg, #00b4d8 0%, #4ade80 100%) !important;
+  box-shadow: 0 0 10px rgba(0, 180, 216, 0.8) !important;
+}
+
+/* 5. Chip Cloud Filter Pills */
+yt-chip-cloud-chip-renderer {
+  border-radius: 9999px !important;
+  border: 1px solid rgba(0, 180, 216, 0.4) !important;
+  box-shadow: 0 2px 6px rgba(0, 20, 50, 0.15) !important;
+}
+

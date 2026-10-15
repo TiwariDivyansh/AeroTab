@@ -32,7 +32,14 @@ const WeatherWidget = {
       }
     }
 
-    this.container.innerHTML = '<p class="weather-loading">Fetching atmosphere data...</p>';
+    // Render instant optimistic baseline while fetching in background
+    this.render({
+      city: settings.weatherCity || 'Local Atmosphere',
+      temp: settings.weatherUnit === 'imperial' ? 72 : 22,
+      emoji: '☀️',
+      description: 'Pleasant & clear',
+      unit: settings.weatherUnit === 'imperial' ? '°F' : '°C'
+    });
 
     try {
       if (settings.weatherApiKey) {
@@ -154,12 +161,17 @@ const WeatherWidget = {
   render: function(data) {
     if (!this.container) return;
     this.container.innerHTML = `
-      <div class="weather-main">
-        <span class="weather-emoji">${data.emoji}</span>
-        <span class="weather-temp">${data.temp}°</span>
+      <div class="weather-hero">
+        <div class="weather-badge-orb">
+          <span class="weather-emoji">${data.emoji}</span>
+        </div>
+        <div class="weather-temp-group">
+          <span class="weather-temp">${data.temp}°</span>
+          <span class="weather-unit">${data.unit || ''}</span>
+        </div>
       </div>
-      <div class="weather-desc">${data.description}</div>
-      <div class="weather-city">${data.city}</div>
+      <div class="weather-condition-pill">${data.description}</div>
+      <div class="weather-location-pill">📍 ${data.city}</div>
     `;
   },
 

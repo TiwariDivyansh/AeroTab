@@ -61,6 +61,9 @@ const TasksWidget = {
     this.inputEl.value = '';
     this.formEl.style.display = 'none';
     await AeroStorage.set('tasks', this.tasks);
+    if (window.SoundEngine && typeof SoundEngine.playGlassClick === 'function') {
+      SoundEngine.playGlassClick();
+    }
     this.render();
   },
 
@@ -69,12 +72,24 @@ const TasksWidget = {
     if (!task) return;
     task.done = !task.done;
     await AeroStorage.set('tasks', this.tasks);
+    if (task.done) {
+      if (window.SoundEngine && typeof SoundEngine.playWaterDrop === 'function') {
+        SoundEngine.playWaterDrop();
+      }
+    } else {
+      if (window.SoundEngine && typeof SoundEngine.playGlassClick === 'function') {
+        SoundEngine.playGlassClick();
+      }
+    }
     this.render();
   },
 
   deleteTask: async function(id) {
     this.tasks = this.tasks.filter(t => t.id !== id);
     await AeroStorage.set('tasks', this.tasks);
+    if (window.SoundEngine && typeof SoundEngine.playGlassClick === 'function') {
+      SoundEngine.playGlassClick();
+    }
     this.render();
   },
 

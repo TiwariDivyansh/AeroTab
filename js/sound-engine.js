@@ -782,6 +782,96 @@ const SoundEngine = {
       row.appendChild(toggle);
       body.appendChild(row);
     });
+  },
+
+  /* === PROCEDURAL SKEUOMORPHIC UI SOUND EFFECTS === */
+  playGlassClick: function() {
+    try {
+      this.initCtx();
+      if (!this.audioCtx) return;
+      if (this.audioCtx.state === 'suspended') {
+        this.audioCtx.resume();
+      }
+
+      const t = this.audioCtx.currentTime;
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+      const filter = this.audioCtx.createBiquadFilter();
+
+      // High glassy resonance
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(2400, t);
+      osc.frequency.exponentialRampToValueAtTime(800, t + 0.035);
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(2200, t);
+      filter.Q.setValueAtTime(4.0, t);
+
+      gain.gain.setValueAtTime(0.18 * this.masterVolume, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.045);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.masterGain || this.audioCtx.destination);
+
+      osc.start(t);
+      osc.stop(t + 0.05);
+    } catch (e) {}
+  },
+
+  playWaterDrop: function() {
+    try {
+      this.initCtx();
+      if (!this.audioCtx) return;
+      if (this.audioCtx.state === 'suspended') {
+        this.audioCtx.resume();
+      }
+
+      const t = this.audioCtx.currentTime;
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, t);
+      osc.frequency.exponentialRampToValueAtTime(1450, t + 0.08);
+      osc.frequency.exponentialRampToValueAtTime(700, t + 0.16);
+
+      gain.gain.setValueAtTime(0.25 * this.masterVolume, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+
+      osc.connect(gain);
+      gain.connect(this.masterGain || this.audioCtx.destination);
+
+      osc.start(t);
+      osc.stop(t + 0.19);
+    } catch (e) {}
+  },
+
+  playHoverShimmer: function() {
+    try {
+      this.initCtx();
+      if (!this.audioCtx) return;
+      if (this.audioCtx.state === 'suspended') {
+        this.audioCtx.resume();
+      }
+
+      const t = this.audioCtx.currentTime;
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(3200, t);
+      osc.frequency.linearRampToValueAtTime(4400, t + 0.06);
+
+      gain.gain.setValueAtTime(0.04 * this.masterVolume, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+
+      osc.connect(gain);
+      gain.connect(this.masterGain || this.audioCtx.destination);
+
+      osc.start(t);
+      osc.stop(t + 0.09);
+    } catch (e) {}
   }
 };
 

@@ -29,11 +29,8 @@
 
     <!-- Left Sidebar: Vista Style Gadgets -->
     <aside class="sidebar sidebar-left">
-      <!-- Analog Clock Gadget -->
-      <section id="analog-clock-widget" class="widget glass-panel animate-fade-in-up stagger-1">
-        <div class="widget-header">
-          <span class="widget-title">Aero Clock</span>
-        </div>
+      <!-- Analog Clock Gadget (Standalone Vista Timepiece) -->
+      <section id="analog-clock-widget" class="widget aero-clock-pod animate-fade-in-up stagger-1">
         <div class="widget-body">
           <canvas id="analog-clock-canvas" width="160" height="160"></canvas>
         </div>
@@ -97,7 +94,7 @@
       </section>
     </aside>
 
-    <!-- Center Stage: Greeting, Today's Focus & Large Digital Clock -->
+    <!-- Center Stage: Greeting, Today's Focus, Digital Clock & Omni-Search -->
     <main class="main-content">
       <!-- Greeting & Focus Goal -->
       <section id="greeting-section" class="greeting-section animate-fade-in-up stagger-2">
@@ -113,6 +110,52 @@
       <section id="clock-section" class="clock-section animate-fade-in-up stagger-3">
         <div id="digital-clock" class="digital-clock">12:00</div>
         <div id="date-display" class="date-display">Monday, October 13</div>
+      </section>
+
+      <!-- Frutiger Aero Omni-Search Capsule -->
+      <section id="omni-search-section" class="omni-search-section animate-fade-in-up stagger-3">
+        <form id="omni-search-form" class="omni-search-form" action="https://www.google.com/search" method="GET">
+          <!-- Engine Selector Dropdown Button -->
+          <div class="search-engine-selector" id="search-engine-selector">
+            <button type="button" id="search-engine-btn" class="search-engine-btn" title="Switch Search Engine">
+              <span id="current-engine-icon" class="engine-icon">🔍</span>
+              <span class="engine-arrow">▾</span>
+            </button>
+            <!-- Engine Dropdown Menu -->
+            <div id="engine-dropdown-menu" class="engine-dropdown-menu glass-panel" style="display: none;">
+              <div class="engine-option active" data-engine="google" data-name="Google" data-icon="🔍" data-url="https://www.google.com/search?q=">
+                <span class="engine-opt-icon">🔍</span>
+                <span class="engine-opt-label">Google</span>
+              </div>
+              <div class="engine-option" data-engine="youtube" data-name="YouTube" data-icon="📺" data-url="https://www.youtube.com/results?search_query=">
+                <span class="engine-opt-icon">📺</span>
+                <span class="engine-opt-label">YouTube</span>
+              </div>
+              <div class="engine-option" data-engine="duckduckgo" data-name="DuckDuckGo" data-icon="🦆" data-url="https://duckduckgo.com/?q=">
+                <span class="engine-opt-icon">🦆</span>
+                <span class="engine-opt-label">DuckDuckGo</span>
+              </div>
+              <div class="engine-option" data-engine="bing" data-name="Bing" data-icon="🌐" data-url="https://www.bing.com/search?q=">
+                <span class="engine-opt-icon">🌐</span>
+                <span class="engine-opt-label">Bing</span>
+              </div>
+              <div class="engine-option" data-engine="wikipedia" data-name="Wikipedia" data-icon="📚" data-url="https://en.wikipedia.org/wiki/Special:Search?search=">
+                <span class="engine-opt-icon">📚</span>
+                <span class="engine-opt-label">Wikipedia</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Glass Search Input -->
+          <input type="text" id="omni-search-input" class="omni-search-input" name="q"
+                 placeholder="Search the web with Google..." autocomplete="off" spellcheck="false">
+
+          <!-- Glowing 3D Search Orb Button -->
+          <button type="submit" id="omni-search-submit" class="omni-search-submit" title="Search">
+            <span class="search-orb-icon">🔍</span>
+          </button>
+        </form>
+        <div class="search-hotkey-hint">Press <kbd class="glass-kbd">/</kbd> to focus search</div>
       </section>
     </main>
 
@@ -180,6 +223,87 @@
       </div>
     </nav>
 
+    <!-- Windows Vista Aero Glass Start Menu Flyout -->
+    <div id="start-menu-panel" class="start-menu-panel glass-panel" style="display: none;">
+      <!-- User Profile Header -->
+      <div class="start-menu-header">
+        <div class="start-user-avatar">
+          <span class="user-avatar-orb">🌊</span>
+        </div>
+        <div class="start-user-info">
+          <span class="start-user-greeting">Windows Vista</span>
+          <span class="start-user-name">Aero User</span>
+        </div>
+      </div>
+
+      <!-- Main Two-Column Vista Layout -->
+      <div class="start-menu-columns">
+        <!-- Left Column: Pinned Applications & Shortcuts -->
+        <div class="start-menu-left-pane">
+          <div class="start-menu-group-title">Fast Access</div>
+          <a href="https://www.google.com" class="start-menu-item">
+            <span class="start-item-icon">🔍</span>
+            <div class="start-item-text">
+              <span class="start-item-title">Google Search</span>
+              <span class="start-item-desc">Browse with Aero Skin</span>
+            </div>
+          </a>
+          <a href="https://www.youtube.com" class="start-menu-item">
+            <span class="start-item-icon">📺</span>
+            <div class="start-item-text">
+              <span class="start-item-title">YouTube</span>
+              <span class="start-item-desc">Acrylic Glass Masthead</span>
+            </div>
+          </a>
+          <a href="https://reddit.com/r/FrutigerAero" target="_blank" class="start-menu-item">
+            <span class="start-item-icon">🌊</span>
+            <div class="start-item-text">
+              <span class="start-item-title">r/FrutigerAero</span>
+              <span class="start-item-desc">Aesthetic Community</span>
+            </div>
+          </a>
+          <a href="https://github.com" target="_blank" class="start-menu-item">
+            <span class="start-item-icon">💻</span>
+            <div class="start-item-text">
+              <span class="start-item-title">GitHub</span>
+              <span class="start-item-desc">Code & Projects</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Right Column: System Tools & Subgenres -->
+        <div class="start-menu-right-pane">
+          <button id="start-open-themes-btn" class="start-sys-item">
+            <span class="start-sys-icon">🎨</span>
+            <span class="start-sys-label">Theme Gallery</span>
+          </button>
+          <button id="start-open-music-btn" class="start-sys-item">
+            <span class="start-sys-icon">🎵</span>
+            <span class="start-sys-label">Aero Jukebox</span>
+          </button>
+          <button id="start-open-ambient-btn" class="start-sys-item">
+            <span class="start-sys-icon">🌧️</span>
+            <span class="start-sys-label">Soundscapes</span>
+          </button>
+          <button id="start-open-settings-btn" class="start-sys-item">
+            <span class="start-sys-icon">⚙️</span>
+            <span class="start-sys-label">Settings</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Bar: Search Command & Red Gel Power Button -->
+      <div class="start-menu-footer">
+        <div class="start-menu-search-box">
+          <span class="start-search-icon">🔍</span>
+          <input type="text" id="start-menu-search-input" placeholder="Start Search..." class="start-search-input" autocomplete="off">
+        </div>
+        <button id="start-power-btn" class="start-power-btn" title="Refresh Dashboard">
+          ⏻
+        </button>
+      </div>
+    </div>
+
     <!-- Ambient Soundscape Mixer Flyout Panel -->
     <div id="sound-mixer-panel" class="sound-mixer-panel glass-panel" style="display: none;">
       <div class="widget-header">
@@ -212,6 +336,8 @@
   <script src="js/tasks-widget.js"></script>
   <script src="js/bookmarks-widget.js"></script>
   <script src="js/sound-engine.js"></script>
+  <script src="js/search-widget.js"></script>
+  <script src="js/start-menu.js"></script>
   <script src="js/settings.js"></script>
   <script src="js/app.js"></script>
 </body>

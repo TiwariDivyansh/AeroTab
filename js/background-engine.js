@@ -30,13 +30,30 @@ const BackgroundEngine = {
     this.resize();
     window.addEventListener('resize', AeroUtils.debounce(() => this.resize(), 150));
 
-    // Interactive water ripples on click
+    // Interactive water ripples and bubble popping on click
     window.addEventListener('pointerdown', (e) => {
-      if (e.target.closest('.widget, .taskbar, .settings-panel, .sound-mixer-panel, .media-player-widget')) return;
+      if (e.target.closest('.widget, .taskbar, .settings-panel, .sound-mixer-panel, .media-player-widget, .omni-search-section, .start-menu-panel')) return;
+
+      // Check if clicked directly on or near a floating bubble
+      let popped = false;
+      for (let i = this.particles.length - 1; i >= 0; i--) {
+        const b = this.particles[i];
+        const dist = Math.hypot(e.clientX - b.x, e.clientY - b.y);
+        if (dist <= b.radius * 1.4) {
+          this.popBubble(b, i);
+          popped = true;
+          break;
+        }
+      }
+
       this.addRipple(e.clientX, e.clientY);
+      if (popped && window.SoundEngine && typeof SoundEngine.playWaterDrop === 'function') {
+        SoundEngine.playWaterDrop();
+      }
     });
 
     this.initParticles();
+    this.droplets = [];
     this.lastFrameTime = performance.now();
     this.loop(this.lastFrameTime);
   },
@@ -136,6 +153,28 @@ const BackgroundEngine = {
     };
   },
 
+  popBubble: function(bubble, index) {
+    // Spawn micro burst droplets
+    const dropletCount = 8;
+    for (let i = 0; i < dropletCount; i++) {
+      const angle = (i * Math.PI * 2) / dropletCount + (Math.random() - 0.5) * 0.4;
+      const speed = Math.random() * 80 + 40;
+      this.droplets.push({
+        x: bubble.x,
+        y: bubble.y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        radius: Math.random() * 2.5 + 1.2,
+        life: 0.35,
+        maxLife: 0.35,
+        opacity: bubble.opacity
+      });
+    }
+
+    // Replace popped bubble with a new rising bubble
+    this.particles[index] = this.createBubble(false);
+  },
+
   update: function(dt) {
     this.time += dt;
 
@@ -147,6 +186,18 @@ const BackgroundEngine = {
 
       if (b.y < -b.radius * 2) {
         this.particles[i] = this.createBubble(false);
+      }
+    }
+
+    // Update burst droplets
+    for (let i = this.droplets.length - 1; i >= 0; i--) {
+      const d = this.droplets[i];
+      d.x += d.vx * dt;
+      d.y += d.vy * dt;
+      d.vy += 120 * dt; // gravity
+      d.life -= dt;
+      if (d.life <= 0) {
+        this.droplets.splice(i, 1);
       }
     }
 
@@ -181,7 +232,10 @@ const BackgroundEngine = {
     // 3. Floating 3D Iridescent Bubbles
     this.render3DBubbles(ctx);
 
-    // 4. Interactive Water Shockwave Ripples
+    // 4. Burst Droplets
+    this.renderDroplets(ctx);
+
+    // 5. Interactive Water Shockwave Ripples
     this.renderRipples(ctx);
   },
 
@@ -280,6 +334,22 @@ const BackgroundEngine = {
       ctx.fill();
 
       ctx.restore();
+    }
+    ctx.restore();
+  },
+
+  renderDroplets: function(ctx) {
+    if (!this.droplets || this.droplets.length === 0) return;
+    ctx.save();
+    for (let i = 0; i < this.droplets.length; i++) {
+      const d = this.droplets[i];
+      const alpha = (d.life / d.maxLife) * d.opacity;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.9})`;
+      ctx.shadowColor = 'rgba(0, 180, 216, 0.8)';
+      ctx.shadowBlur = 4;
+      ctx.fill();
     }
     ctx.restore();
   },

@@ -65,10 +65,18 @@
     // 5. Initialize Ambient Sound Engine (UI only, waiting for user activation)
     SoundEngine.init();
 
-    // 6. Initialize Settings Panel
+    // 6. Initialize Frutiger Aero Omni-Search & Vista Start Menu
+    if (window.SearchWidget) {
+      SearchWidget.init();
+    }
+    if (window.StartMenu) {
+      StartMenu.init();
+    }
+
+    // 7. Initialize Settings Panel
     Settings.init();
 
-    // 7. Energy Saver: Pause canvas loops when tab is hidden/minimized
+    // 8. Energy Saver: Pause canvas loops when tab is hidden/minimized
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         BackgroundEngine.pause();

@@ -16,6 +16,9 @@ header,
 
 /* 2. Skeuomorphic 3D Glass Search Input Capsule */
 form[role="search"] [jscontroller],
+form[role="search"] textarea[name="q"],
+form[role="search"] input[name="q"],
+div[role="combobox"],
 .RNNXgb,
 .gLFyf {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(235, 250, 255, 0.8) 100%) !important;
@@ -30,7 +33,10 @@ form[role="search"] [jscontroller],
 }
 
 form[role="search"]:hover [jscontroller],
-.RNNXgb:hover {
+form[role="search"]:focus-within [jscontroller],
+form[role="search"]:focus-within textarea,
+.RNNXgb:hover,
+.RNNXgb:focus-within {
   border-color: #00b4d8 !important;
   box-shadow:
     0 0 0 3px rgba(0, 180, 216, 0.35),
@@ -39,6 +45,7 @@ form[role="search"]:hover [jscontroller],
 
 /* 3. Lickable 3D Gel Capsule Buttons */
 input[type="submit"],
+button[type="submit"],
 .gNO89b,
 .RNmpXc {
   background: linear-gradient(

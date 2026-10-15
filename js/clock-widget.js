@@ -74,53 +74,98 @@ const ClockWidget = {
     const r = 70;
 
     ctx.clearRect(0, 0, 160, 160);
-
-    // Outer Glass Bezel Ring
     ctx.save();
+
+    // 1. Outer Chrome Bezel Ring (Brushed Anisotropic Metal Finish)
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    const bezelGrad = ctx.createLinearGradient(0, cy - r, 0, cy + r);
-    bezelGrad.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
-    bezelGrad.addColorStop(0.5, 'rgba(180, 225, 255, 0.3)');
-    bezelGrad.addColorStop(1, 'rgba(0, 30, 60, 0.5)');
-    ctx.strokeStyle = bezelGrad;
-    ctx.lineWidth = 4;
+    const chromeGrad = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
+    chromeGrad.addColorStop(0, '#ffffff');
+    chromeGrad.addColorStop(0.2, '#d4e8f7');
+    chromeGrad.addColorStop(0.45, '#7fa6c8');
+    chromeGrad.addColorStop(0.55, '#f0f8ff');
+    chromeGrad.addColorStop(0.8, '#5982a6');
+    chromeGrad.addColorStop(1, '#2c4a68');
+    ctx.strokeStyle = chromeGrad;
+    ctx.lineWidth = 5;
+    ctx.shadowColor = 'rgba(0, 20, 50, 0.45)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetY = 4;
+    ctx.stroke();
+    ctx.shadowColor = 'transparent';
+
+    // 2. Inner Crystal Bevel Trench
+    ctx.beginPath();
+    ctx.arc(cx, cy, r - 3, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.lineWidth = 1.2;
     ctx.stroke();
 
-    // Clock Face Dial
-    const faceGrad = ctx.createRadialGradient(cx, cy - 20, 5, cx, cy, r);
-    faceGrad.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
-    faceGrad.addColorStop(0.7, 'rgba(15, 35, 75, 0.25)');
-    faceGrad.addColorStop(1, 'rgba(5, 15, 35, 0.45)');
-    ctx.fillStyle = faceGrad;
+    // 3. Dial Face (Deep Aquamarine Glass Depth)
+    const dialGrad = ctx.createRadialGradient(cx, cy - 25, 6, cx, cy, r);
+    dialGrad.addColorStop(0, 'rgba(255, 255, 255, 0.35)');
+    dialGrad.addColorStop(0.5, 'rgba(12, 40, 75, 0.38)');
+    dialGrad.addColorStop(0.85, 'rgba(4, 18, 40, 0.65)');
+    dialGrad.addColorStop(1, 'rgba(2, 10, 25, 0.85)');
+    ctx.fillStyle = dialGrad;
     ctx.fill();
 
-    // 12 Hour Ticks
-    for (let i = 0; i < 12; i++) {
-      const angle = (i * Math.PI) / 6;
-      const isMajor = i % 3 === 0;
-      const tickR = isMajor ? r - 10 : r - 8;
-      const x1 = cx + Math.cos(angle) * (r - 4);
-      const y1 = cy + Math.sin(angle) * (r - 4);
-      const x2 = cx + Math.cos(angle) * tickR;
-      const y2 = cy + Math.sin(angle) * tickR;
+    // 4. Dial Sub-Ring & Compass Crosshairs
+    ctx.beginPath();
+    ctx.arc(cx, cy, r - 16, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
 
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.strokeStyle = isMajor ? 'rgba(255, 255, 255, 0.85)' : 'rgba(255, 255, 255, 0.4)';
-      ctx.lineWidth = isMajor ? 2.5 : 1.2;
-      ctx.stroke();
+    // 5. 12 Beveled Hour Ticks & 60 Minute Dots
+    for (let i = 0; i < 60; i++) {
+      const angle = (i * Math.PI) / 30;
+      const isHour = i % 5 === 0;
+      const isCardinal = i % 15 === 0;
+
+      if (isHour) {
+        const tickLen = isCardinal ? 11 : 8;
+        const x1 = cx + Math.cos(angle) * (r - 6);
+        const y1 = cy + Math.sin(angle) * (r - 6);
+        const x2 = cx + Math.cos(angle) * (r - 6 - tickLen);
+        const y2 = cy + Math.sin(angle) * (r - 6 - tickLen);
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = isCardinal ? '#ffffff' : 'rgba(220, 245, 255, 0.9)';
+        ctx.lineWidth = isCardinal ? 3 : 2;
+        ctx.lineCap = 'round';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 2;
+        ctx.stroke();
+        ctx.shadowColor = 'transparent';
+      } else {
+        const dotR = r - 10;
+        const dx = cx + Math.cos(angle) * dotR;
+        const dy = cy + Math.sin(angle) * dotR;
+        ctx.beginPath();
+        ctx.arc(dx, dy, 0.9, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+        ctx.fill();
+      }
     }
 
-    // Top-Left Gloss Reflection (Signature Frutiger Aero Shine)
+    // 6. Signature Vista Top-Half Curved Glass Specular Highlight
+    ctx.save();
     ctx.beginPath();
-    ctx.arc(cx, cy, r - 3, Math.PI * 0.9, Math.PI * 1.9);
-    ctx.bezierCurveTo(cx - 20, cy - 10, cx + 20, cy - 10, cx + (r - 3), cy);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+    ctx.arc(cx, cy, r - 4, Math.PI * 0.95, Math.PI * 2.05);
+    ctx.bezierCurveTo(cx + 30, cy - 8, cx - 30, cy - 8, cx - (r - 4), cy);
+    const glassGlare = ctx.createLinearGradient(cx, cy - r, cx, cy);
+    glassGlare.addColorStop(0, 'rgba(255, 255, 255, 0.55)');
+    glassGlare.addColorStop(0.4, 'rgba(255, 255, 255, 0.22)');
+    glassGlare.addColorStop(0.9, 'rgba(255, 255, 255, 0.03)');
+    glassGlare.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = glassGlare;
     ctx.fill();
+    ctx.restore();
 
-    // Calculate Hand Angles
+    // 7. Calculate Hand Angles
     const sec = now.getSeconds() + now.getMilliseconds() / 1000;
     const min = now.getMinutes() + sec / 60;
     const hr = (now.getHours() % 12) + min / 60;
@@ -129,42 +174,84 @@ const ClockWidget = {
     const minAngle = (min * Math.PI) / 30 - Math.PI / 2;
     const secAngle = (sec * Math.PI) / 30 - Math.PI / 2;
 
-    // Hour Hand
-    this.drawHand(ctx, cx, cy, hrAngle, 38, 4, 'rgba(255, 255, 255, 0.95)');
+    // 8. Sculpted Sword Hour Hand with Center Spine
+    this.drawSculptedHand(ctx, cx, cy, hrAngle, 36, 5, '#ffffff', 'rgba(180, 220, 245, 0.85)');
 
-    // Minute Hand
-    this.drawHand(ctx, cx, cy, minAngle, 52, 2.5, 'rgba(255, 255, 255, 0.95)');
+    // 9. Sculpted Sword Minute Hand
+    this.drawSculptedHand(ctx, cx, cy, minAngle, 52, 3.8, '#ffffff', 'rgba(180, 220, 245, 0.85)');
 
-    // Second Hand (Electric Cyan)
-    this.drawHand(ctx, cx, cy, secAngle, 58, 1.5, '#4DC9F6', 12);
+    // 10. Vista Electric Cyan Second Hand with Ring Counterweight
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(secAngle);
 
-    // Center Cap
+    ctx.shadowColor = 'rgba(0, 20, 45, 0.7)';
+    ctx.shadowBlur = 4;
+    ctx.shadowOffsetY = 2;
+
+    // Tail & Ring
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 1.6;
     ctx.beginPath();
-    ctx.arc(cx, cy, 5, 0, Math.PI * 2);
-    ctx.fillStyle = '#fff';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+    ctx.moveTo(0, 0);
+    ctx.lineTo(-14, 0);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(-14, 0, 3.5, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Main needle
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(58, 0);
+    ctx.stroke();
+
+    ctx.restore();
+
+    // 11. Central Chrome Jewel Pearl
+    ctx.beginPath();
+    ctx.arc(cx, cy, 5.5, 0, Math.PI * 2);
+    const pearlGrad = ctx.createRadialGradient(cx - 1.5, cy - 1.5, 1, cx, cy, 5.5);
+    pearlGrad.addColorStop(0, '#ffffff');
+    pearlGrad.addColorStop(0.5, '#7fddff');
+    pearlGrad.addColorStop(0.85, '#0284c7');
+    pearlGrad.addColorStop(1, '#002244');
+    ctx.fillStyle = pearlGrad;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
     ctx.shadowBlur = 4;
     ctx.fill();
+    ctx.shadowColor = 'transparent';
 
     ctx.restore();
   },
 
-  drawHand: function(ctx, cx, cy, angle, length, width, color, tailLength = 0) {
+  drawSculptedHand: function(ctx, cx, cy, angle, length, baseWidth, lightColor, shadowColor) {
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(angle);
 
-    ctx.strokeStyle = color;
-    ctx.lineWidth = width;
-    ctx.lineCap = 'round';
-    ctx.shadowColor = 'rgba(0, 15, 30, 0.5)';
-    ctx.shadowBlur = 4;
+    ctx.shadowColor = 'rgba(0, 15, 35, 0.6)';
+    ctx.shadowBlur = 5;
     ctx.shadowOffsetY = 2;
 
+    // Top Light Half
     ctx.beginPath();
-    ctx.moveTo(-tailLength, 0);
+    ctx.moveTo(0, -baseWidth / 2);
     ctx.lineTo(length, 0);
-    ctx.stroke();
+    ctx.lineTo(0, 0);
+    ctx.closePath();
+    ctx.fillStyle = lightColor;
+    ctx.fill();
+
+    // Bottom Shadow Half
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(length, 0);
+    ctx.lineTo(0, baseWidth / 2);
+    ctx.closePath();
+    ctx.fillStyle = shadowColor;
+    ctx.fill();
 
     ctx.restore();
   }

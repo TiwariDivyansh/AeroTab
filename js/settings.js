@@ -33,10 +33,6 @@ const Settings = {
       });
     }
 
-    if (startBtn) {
-      startBtn.addEventListener('click', () => this.open());
-    }
-
     if (this.overlayEl) {
       this.overlayEl.addEventListener('click', () => this.close());
     }

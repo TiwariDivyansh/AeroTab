@@ -15,29 +15,53 @@
   --accent-magenta: #f472b6;
 
   /* === SKEUOMORPHIC AERO ACRYLIC GLASS TOKENS === */
-  --glass-bg: rgba(255, 255, 255, 0.32);
-  --glass-bg-hover: rgba(255, 255, 255, 0.45);
-  --glass-bg-active: rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.78);
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-bg-hover: rgba(255, 255, 255, 0.48);
+  --glass-bg-active: rgba(255, 255, 255, 0.60);
+  --glass-border: rgba(255, 255, 255, 0.85);
   --glass-border-bright: rgba(255, 255, 255, 0.98);
   
-  --glass-inner-bevel: inset 0 2px 2px rgba(255, 255, 255, 0.95),
-                       inset 0 -2px 3px rgba(0, 35, 70, 0.25),
-                       inset 1px 0 2px rgba(255, 255, 255, 0.6),
-                       inset -1px 0 2px rgba(255, 255, 255, 0.6);
+  --glass-inner-bevel: inset 0 2px 2px rgba(255, 255, 255, 0.98),
+                       inset 0 -2px 4px rgba(0, 35, 75, 0.28),
+                       inset 1px 0 2px rgba(255, 255, 255, 0.7),
+                       inset -1px 0 2px rgba(255, 255, 255, 0.7);
                        
-  --glass-shadow: 0 16px 40px rgba(0, 20, 50, 0.35), 0 4px 12px rgba(0, 0, 0, 0.2);
-  --glass-blur: 18px;
+  --glass-shadow: 0 16px 40px rgba(0, 20, 50, 0.35), 0 4px 12px rgba(0, 0, 0, 0.22);
+  --glass-blur: 20px;
   --glass-blur-heavy: 28px;
 
-  /* === TEXT CONTRAST TOKENS === */
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.9);
-  --text-tertiary: rgba(255, 255, 255, 0.7);
-  --text-shadow: 0 1px 3px rgba(0, 20, 50, 0.8), 0 2px 8px rgba(0, 0, 0, 0.6);
-  --text-glow: 0 0 12px rgba(255, 255, 255, 0.8), 0 1px 3px rgba(0, 0, 0, 0.9);
+  /* === OPTICAL REFRACTION & LENS GLARE TOKENS === */
+  --glass-lens-glare: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(255, 255, 255, 0.82) 0%,
+    rgba(255, 255, 255, 0.32) 48%,
+    rgba(255, 255, 255, 0.04) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  --glass-rainbow-prism: linear-gradient(
+    90deg,
+    rgba(77, 201, 246, 0.7) 0%,
+    rgba(74, 222, 128, 0.7) 33%,
+    rgba(251, 191, 36, 0.7) 66%,
+    rgba(244, 114, 182, 0.7) 100%
+  );
+  --chrome-bezel: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #d8ebf8 25%,
+    #9dc0d8 50%,
+    #eaf4fc 75%,
+    #7da3be 100%
+  );
 
-  --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+  /* === TEXT CONTRAST TOKENS (Humanist Luminous Glow) === */
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.92);
+  --text-tertiary: rgba(255, 255, 255, 0.75);
+  --text-shadow: 0 1px 3px rgba(0, 20, 50, 0.9), 0 2px 8px rgba(0, 0, 0, 0.7);
+  --text-glow: 0 0 14px rgba(255, 255, 255, 0.85), 0 1px 3px rgba(0, 0, 0, 0.95);
+
+  --font-family: 'Segoe UI', 'Lucida Grande', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
   --font-size-xs: 11px;
   --font-size-sm: 13px;
   --font-size-md: 15px;
@@ -57,9 +81,9 @@
 
   /* === BORDER RADIUS === */
   --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
   --radius-pill: 9999px;
 
   /* === TRANSITIONS === */
@@ -81,7 +105,7 @@
   overflow: hidden;
 }
 
-/* Iconic Curved Specular Highlight Glare on Top Half */
+/* Iconic Curved Specular Highlight Glare on Top Half (Lens Glare) */
 .glass-panel::before {
   content: '';
   position: absolute;
@@ -89,13 +113,7 @@
   left: 0;
   right: 0;
   height: 52%;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.65) 0%,
-    rgba(255, 255, 255, 0.3) 45%,
-    rgba(255, 255, 255, 0.05) 90%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: var(--glass-lens-glare);
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   pointer-events: none;
@@ -110,16 +128,16 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, rgba(77, 201, 246, 0.6), rgba(74, 222, 128, 0.6), rgba(251, 191, 36, 0.6), rgba(244, 114, 182, 0.6));
+  background: var(--glass-rainbow-prism);
   pointer-events: none;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .glass-panel:hover {
   background: var(--glass-bg-hover);
   border-color: var(--glass-border-bright);
   transform: translateY(-2px);
-  box-shadow: 0 20px 48px rgba(0, 20, 50, 0.45), var(--glass-inner-bevel);
+  box-shadow: 0 22px 52px rgba(0, 20, 50, 0.45), var(--glass-inner-bevel);
 }
 
 /* === LICKABLE 3D GEL CAPSULE BUTTON === */
@@ -269,3 +287,85 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.95);
 }
+
+/* === SCULPTED GLASS POD (For Organic Physical Gadgets) === */
+.glass-pod {
+  position: relative;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(225, 245, 255, 0.28) 45%,
+    rgba(180, 225, 255, 0.22) 75%,
+    rgba(255, 255, 255, 0.35) 100%
+  );
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  border: 1.5px solid var(--glass-border-bright);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    0 18px 44px rgba(0, 20, 50, 0.32),
+    0 4px 12px rgba(0, 0, 0, 0.18),
+    inset 0 2px 3px rgba(255, 255, 255, 1),
+    inset 0 -2px 4px rgba(0, 30, 70, 0.25);
+  transition: all var(--transition-normal);
+  overflow: hidden;
+}
+
+.glass-pod::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: var(--glass-lens-glare);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-pod:hover {
+  transform: translateY(-2px);
+  border-color: #ffffff;
+  box-shadow:
+    0 24px 56px rgba(0, 20, 50, 0.45),
+    0 0 20px rgba(0, 180, 216, 0.35),
+    inset 0 2px 3px #fff;
+}
+
+/* 45-Degree Sunlight Sheen Sweep on Hover */
+.sunlight-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.sunlight-sheen::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(35deg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.sunlight-sheen:hover::after {
+  opacity: 1;
+  animation: sheenSweep 850ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes sheenSweep {
+  0% { transform: translate(-80%, -50%) rotate(35deg); }
+  100% { transform: translate(380%, -50%) rotate(35deg); }
+}
+
