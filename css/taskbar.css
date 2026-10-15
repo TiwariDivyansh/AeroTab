@@ -1,0 +1,207 @@
+/* Windows Vista / 7 Style Aero Taskbar */
+
+.taskbar {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-md);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(10, 30, 60, 0.65) 12%,
+    rgba(0, 15, 35, 0.75) 100%
+  );
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  border-top: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 -4px 20px rgba(0, 10, 25, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  z-index: 50;
+  user-select: none;
+}
+
+.taskbar-left,
+.taskbar-center,
+.taskbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* === START BUTTON / AERO ORB === */
+.start-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 5px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(0, 40, 80, 0.3) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  transition: all var(--transition-fast);
+}
+
+.start-button:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(100, 200, 255, 0.25) 50%,
+    rgba(0, 60, 120, 0.4) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 14px rgba(77, 201, 246, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.start-button .start-orb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #b8f2ff 0%, #1aabf0 45%, #005599 85%, #002244 100%);
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(77, 201, 246, 0.6),
+    inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.start-button .start-orb::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  right: 4px;
+  height: 10px;
+  border-radius: 50% 50% 40% 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.1) 100%);
+  pointer-events: none;
+}
+
+.start-label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* === TASKBAR BUTTONS === */
+.taskbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 16px;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.taskbar-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 10px rgba(77, 201, 246, 0.35);
+}
+
+.taskbar-btn.active {
+  background: linear-gradient(
+    to bottom,
+    rgba(77, 201, 246, 0.35) 0%,
+    rgba(26, 171, 240, 0.2) 100%
+  );
+  border-color: var(--aero-blue-300);
+  box-shadow: 0 0 12px rgba(77, 201, 246, 0.5);
+}
+
+.taskbar-clock {
+  padding: 4px 10px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  min-width: 84px;
+  text-align: center;
+}
+
+/* === SOUND MIXER POPUP PANEL === */
+.sound-mixer-panel {
+  position: fixed;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  z-index: 60;
+  animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.sound-mixer-body {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sound-channel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sound-channel-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-primary);
+  min-width: 100px;
+}
+
+.sound-channel-slider {
+  flex: 1;
+  accent-color: var(--aero-blue-400);
+  cursor: pointer;
+  height: 4px;
+}
+
+.sound-channel-toggle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sound-channel-toggle.playing {
+  background: var(--accent-green);
+  border-color: #86efac;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+}

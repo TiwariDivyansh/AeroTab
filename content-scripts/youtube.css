@@ -1,0 +1,69 @@
+/* ==========================================================================
+   AeroTab — Browser-Wide Transformation Base
+   YouTube Frutiger Aero Skin
+   Transforms YouTube navigation bar and video cards into translucent acrylic glass.
+   ========================================================================== */
+
+/* 1. YouTube Masthead Top Bar */
+#masthead-container,
+ytd-masthead {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(225, 245, 255, 0.75) 100%
+  ) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 20px rgba(0, 30, 60, 0.15) !important;
+}
+
+[dark] #masthead-container,
+[dark] ytd-masthead {
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 25, 45, 0.85) 0%,
+    rgba(10, 18, 30, 0.9) 100%
+  ) !important;
+  border-bottom: 1.5px solid rgba(0, 180, 216, 0.4) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 2. YouTube Search Bar */
+ytd-searchbox #container.ytd-searchbox {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1.5px solid rgba(0, 180, 216, 0.5) !important;
+  border-radius: 9999px 0 0 9999px !important;
+  box-shadow: inset 0 2px 4px rgba(0, 20, 50, 0.15) !important;
+}
+
+[dark] ytd-searchbox #container.ytd-searchbox {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border-color: rgba(0, 180, 216, 0.5) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+#search-icon-legacy.ytd-searchbox {
+  background: linear-gradient(to bottom, #ffffff 0%, #b8e2ff 100%) !important;
+  border: 1.5px solid rgba(0, 180, 216, 0.5) !important;
+  border-left: none !important;
+  border-radius: 0 9999px 9999px 0 !important;
+}
+
+[dark] #search-icon-legacy.ytd-searchbox {
+  background: linear-gradient(to bottom, #1e293b 0%, #0f172a 100%) !important;
+}
+
+/* 3. Video Thumbnail Glass Hover Effect */
+ytd-rich-item-renderer,
+ytd-video-renderer {
+  transition: transform 200ms ease, box-shadow 200ms ease !important;
+  border-radius: 12px !important;
+  padding: 4px !important;
+}
+
+ytd-rich-item-renderer:hover,
+ytd-video-renderer:hover {
+  transform: translateY(-3px) scale(1.01) !important;
+  box-shadow: 0 8px 24px rgba(0, 180, 216, 0.25) !important;
+}

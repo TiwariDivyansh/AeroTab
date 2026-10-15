@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "AeroTab — Frutiger Aero New Tab & Aesthetic Suite",
+  "version": "1.1.0",
+  "description": "Transform every new tab into an authentic Frutiger Aero dashboard with dynamic animated backgrounds, glass widgets, and ambient sounds.",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*.open-meteo.com/*",
+    "https://api.openweathermap.org/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.google.com/*",
+        "https://*.google.co.uk/*",
+        "https://*.google.ca/*",
+        "https://*.google.com.au/*",
+        "https://*.google.co.in/*"
+      ],
+      "css": ["content-scripts/google.css"],
+      "js": ["content-scripts/injector.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://*.youtube.com/*"
+      ],
+      "css": ["content-scripts/youtube.css"],
+      "js": ["content-scripts/injector.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "wallpapers/*",
+        "sounds/*",
+        "icons/*"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}
